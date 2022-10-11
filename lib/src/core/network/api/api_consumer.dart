@@ -5,8 +5,4 @@ abstract class ApiConsumer {
   //post
   Future<dynamic> post(String path,
       {Map<String, dynamic>? data, Map<String, dynamic>? params});
-
-  //put OR update
-  Future<dynamic> put(String path,
-      {Map<String, dynamic>? data, Map<String, dynamic>? params});
 }
