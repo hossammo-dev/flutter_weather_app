@@ -4,3 +4,11 @@ class ApiEndPoints{
   static const String currentWeather = "weather?";
   static const String forecast = "forecast?";
 }
+
+class ApiHeaders{
+  static const String contentType = "Content-Type";
+  static const String applicationJson = "application/json";
+  static const String authorization = "authorization";
+  static const String language = "language";
+  static const String accept = "accept";
+}
