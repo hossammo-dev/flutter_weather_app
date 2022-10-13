@@ -17,48 +17,59 @@ ThemeData get appTheme => ThemeData(
         shadowColor: ColorsManager.blackColor,
       ),
 
-  //text theme
-  textTheme: TextTheme(
-    //TODO: make a style file and remove hard coded
-    //title
-    titleMedium: TextStyle(
-      color: ColorsManager.whiteColor,
-      fontSize: 16,
-      fontWeight: FontWeight.w700,
-    ),
-    titleSmall: TextStyle(
-      color: ColorsManager.blueGreyColor,
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-    ),
-
-    //body
-    bodyLarge: TextStyle(
-      color: ColorsManager.whiteColor,
-      fontSize: 80,
-      fontWeight: FontWeight.w500,
-    ),
-    bodyMedium: TextStyle(
-      color: ColorsManager.whiteColor,
-      fontSize: 16,
-      fontWeight: FontWeight.w700,
-    ),
-    bodySmall: TextStyle(
-      color: ColorsManager.whiteColor,
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-    ),
-
-    //label
-    labelMedium: TextStyle(
-      color: ColorsManager.blackColor,
-      fontSize: 16,
-      fontWeight: FontWeight.w700,
-    ),
-    labelSmall: TextStyle(
-      color: ColorsManager.greyColor,
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-    ),
+      //bottom navigation bar theme
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: SizeValues.s0,
+    unselectedItemColor: ColorsManager.lightWhiteColor,
+    selectedItemColor: ColorsManager.lightBlueColor,
+    showSelectedLabels: false,
+    showUnselectedLabels: false,
+    type: BottomNavigationBarType.fixed,
+    backgroundColor: ColorsManager.whiteColor,
   ),
+
+      //text theme
+      textTheme: TextTheme(
+        //TODO: make a style file and remove hard coded
+        //title
+        titleMedium: TextStyle(
+          color: ColorsManager.whiteColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+        titleSmall: TextStyle(
+          color: ColorsManager.lightGreyColor,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+
+        //body
+        bodyLarge: TextStyle(
+          color: ColorsManager.whiteColor,
+          fontSize: 80,
+          fontWeight: FontWeight.w500,
+        ),
+        bodyMedium: TextStyle(
+          color: ColorsManager.whiteColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+        bodySmall: TextStyle(
+          color: ColorsManager.whiteColor,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+
+        //label
+        labelMedium: TextStyle(
+          color: ColorsManager.blackColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+        labelSmall: TextStyle(
+          color: ColorsManager.greyColor,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
