@@ -1,8 +1,17 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'main_state.dart';
+import 'main_states.dart';
 
-class MainCubit extends Cubit<MainState> {
-  MainCubit() : super(MainInitial());
+class MainCubit extends Cubit<MainStates> {
+  MainCubit() : super(MainInitialState());
+
+  int _currentIndex = 0;
+
+  int get currentIndex => _currentIndex;
+
+  void changeCurrentIndex(int index) {
+  emit(MainChangeIndexLoadingState());
+  _currentIndex = index;
+  emit(MainChangeIndexSuccessState());
+  }
 }
