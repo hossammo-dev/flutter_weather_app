@@ -16,4 +16,14 @@ ThemeData get appTheme => ThemeData(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shadowColor: ColorsManager.blackColor,
       ),
+
+  //text theme
+  textTheme: TextTheme(
+    //TODO: make a style file and remove hard coded
+    titleMedium: TextStyle(
+      color: ColorsManager.whiteColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+    ),
+  ),
     );
