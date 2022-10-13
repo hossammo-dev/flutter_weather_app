@@ -27,7 +27,7 @@ ThemeData get appTheme => ThemeData(
       fontWeight: FontWeight.w700,
     ),
     titleSmall: TextStyle(
-      color: ColorsManager.greyColor,
+      color: ColorsManager.blueGreyColor,
       fontSize: 14,
       fontWeight: FontWeight.w500,
     ),
@@ -35,8 +35,8 @@ ThemeData get appTheme => ThemeData(
     //body
     bodyLarge: TextStyle(
       color: ColorsManager.whiteColor,
-      fontSize: 20,
-      fontWeight: FontWeight.w900,
+      fontSize: 80,
+      fontWeight: FontWeight.w500,
     ),
     bodyMedium: TextStyle(
       color: ColorsManager.whiteColor,
