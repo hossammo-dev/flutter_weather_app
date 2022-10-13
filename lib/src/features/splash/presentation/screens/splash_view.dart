@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:weather/src/core/utils/assets_manager.dart';
 
-import '../../../../config/routes/routes_manager.dart';
+import '../../../../resources_paths.dart';
+
+
+
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class _SplashViewState extends State<SplashView> {
   late Timer _timer;
 
   void _initTimer() {
-    _timer = Timer(const Duration(milliseconds: 2000), _goNext);
+    _timer = Timer(const Duration(milliseconds: Constants.splashDuration), _goNext);
   }
 
   void _goNext() =>
