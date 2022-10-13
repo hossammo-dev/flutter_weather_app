@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/network/error/failure.dart';
 import '../../../../core/network/network_info.dart';
-import '../../../../core/network/request_objects/request_objects.dart';
+import '../../../../core/usecase/usecase_params_types.dart';
 import '../../domain/entities/weather_entity.dart';
 import '../../domain/repository/repository.dart';
 import '../data_sources/remote_data_source/remote_data_source.dart';
