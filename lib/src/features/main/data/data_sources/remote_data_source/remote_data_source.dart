@@ -5,7 +5,7 @@ import '../../../../../core/network/api/api_services_client.dart';
 import '../../models/weather_model.dart';
 
 abstract class RemoteDataSource {
-  Future<WeatherModel> getCurrentWeather(CoordObject coordObject);
+  Future<WeatherModel> getWeather(CoordObject coordObject);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -14,8 +14,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   RemoteDataSourceImpl(this._apiClient);
 
   @override
-  Future<WeatherModel> getCurrentWeather(CoordObject coordObject) async {
-    final response = await _apiClient.get(ApiEndPoints.currentWeather);
+  Future<WeatherModel> getWeather(CoordObject coordObject) async {
+    final params = {
+      'lat': coordObject.lat,
+      'long': coordObject.long,
+      'appid': ApiEndPoints.apiKey
+    };
+
+    final response =
+        await _apiClient.get(ApiEndPoints.currentWeather, params: params);
     return WeatherModel.fromJson(response);
   }
 }
