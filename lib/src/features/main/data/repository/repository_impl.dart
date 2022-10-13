@@ -13,10 +13,10 @@ class RepositoryImpl implements Repository{
   RepositoryImpl(this._networkInfo, this._remoteDataSource);
 
   @override
-  Future<Either<Failure, Weather>> getWeather(CoordObject coordObject) async {
+  Future<Either<Failure, Weather>> getWeatherByCurrentLocation(CoordObject coordObject) async {
     if(await _networkInfo.isConnected){
       try{
-        final response = await _remoteDataSource.getWeather(coordObject);
+        final response = await _remoteDataSource.getWeatherByCurrentLocation(coordObject);
         //save data to cache
         return Right(response);
       } on ServerFailure {
