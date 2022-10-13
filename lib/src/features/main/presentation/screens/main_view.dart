@@ -1,155 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../resources_paths.dart';
+import '../../../../core/utils/color/colors_manager.dart';
+import '../../routes_paths.dart';
+import '../cubit/main_cubit.dart';
+import '../cubit/main_states.dart';
 
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
 
+  final List<Widget> _pages = const [
+    WeatherView(),
+    ChatView(),
+    SearchView(),
+    FavoriteView(),
+    ProfileView(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    const String bgImage =
-        "https://images.unsplash.com/photo-1532178910-7815d6919875?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80";
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(PaddingValues.p12),
-          child: Column(
-            children: [
-              _buildWeatherCard(context, bgImage),
-              const SizedBox(height: SizeValues.s20),
-              _buildForecast(context),
-            ],
-          ),
-        ),
+    return BlocProvider<MainCubit>(
+      create: (context) => MainCubit(),
+      child: BlocBuilder<MainCubit, MainStates>(
+        builder: (context, state) {
+          final cubit = BlocProvider.of<MainCubit>(context);
+          return Scaffold(
+            body: _pages[cubit.currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: cubit.currentIndex,
+              onTap: (index) => cubit.changeCurrentIndex(index),
+              items:  [
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined), label: "Home"),
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.chat_bubble_outline), label: "Chat"),
+                BottomNavigationBarItem(
+                    icon: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: ColorsManager.primaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: const Icon(Icons.search_outlined),
+                    ),
+                    label: "Search"),
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite_border_outlined), label: "Favorite"),
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.person_outline_outlined),
+                    label: "Profile"),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
-
-  Widget _buildWeatherCard(BuildContext context, String bgImage) => Card(
-        child: Container(
-          padding: const EdgeInsets.all(PaddingValues.p16),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(bgImage),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            children: [
-              //header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //city name
-                  Row(
-                    children: [
-                      Icon(Icons.location_on_outlined,
-                          color: ColorsManager.whiteColor),
-                      const SizedBox(width: SizeValues.s4),
-                      Text("New York",
-                          style: Theme.of(context).textTheme.titleMedium),
-                    ],
-                  ),
-                  //time
-                  Row(
-                    children: [
-                      Text("Today",
-                          style: Theme.of(context).textTheme.titleSmall),
-                      const SizedBox(width: SizeValues.s1),
-                      Text("12:48 PM",
-                          style: Theme.of(context).textTheme.titleSmall),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: SizeValues.s40),
-
-              //body
-              Text("22°", style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(height: SizeValues.s20),
-              Text("Mostly Clear",
-                  style: Theme.of(context).textTheme.bodyMedium),
-              const SizedBox(height: SizeValues.s20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.ac_unit,
-                          color: ColorsManager.whiteColor,
-                          size: SizeValues.s16),
-                      const SizedBox(width: SizeValues.s4),
-                      Text("720hpa",
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.ac_unit,
-                          color: ColorsManager.whiteColor,
-                          size: SizeValues.s16),
-                      const SizedBox(width: SizeValues.s4),
-                      Text("32%",
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.ac_unit,
-                          color: ColorsManager.whiteColor,
-                          size: SizeValues.s16),
-                      const SizedBox(width: SizeValues.s4),
-                      Text("120km/h",
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: SizeValues.s20),
-              const SizedBox(
-                height: 200,
-                width: double.infinity,
-                child: Card(),
-              ),
-            ],
-          ),
-        ),
-      );
-
-  Widget _buildForecast(BuildContext context) => Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Today', style: Theme.of(context).textTheme.labelMedium),
-          Text('Next7Days', style: Theme.of(context).textTheme.labelMedium!.copyWith(
-            color: Colors.blue,
-            decoration: TextDecoration.underline,
-          )),
-        ],
-      ),
-      const SizedBox(height: SizeValues.s20),
-      SizedBox(
-        height: 100,
-        child: ListView.builder(
-            itemCount: 13,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => _forecastItemsList(context ,index)),
-      ),
-    ],
-  );
-
-  Widget _forecastItemsList(BuildContext context, int index) => Padding(
-    padding: (index == 12) ? EdgeInsets.zero : const EdgeInsets.only(right: PaddingValues.p16),
-    child: Column(
-      children: [
-        Text('0${index}PM', style: Theme.of(context).textTheme.labelSmall),
-        const SizedBox(height: SizeValues.s8),
-        const Icon(Icons.sunny, color: Colors.amber, size: SizeValues.s32),
-        const SizedBox(height: SizeValues.s8),
-        Text('24°', style: Theme.of(context).textTheme.labelMedium),
-      ],
-    ),
-  );
-
 }
