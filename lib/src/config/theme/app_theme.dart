@@ -5,14 +5,15 @@ import '../../core/utils/values_manager.dart';
 
 ThemeData get appTheme => ThemeData(
       primaryColor: ColorsManager.primaryColor,
-  scaffoldBackgroundColor: ColorsManager.whiteColor,
+      scaffoldBackgroundColor: ColorsManager.whiteColor,
 
-  //card theme
-  cardTheme: CardTheme(
-    color: ColorsManager.whiteColor,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(SizeValues.s8)),
-    elevation: SizeValues.s4,
-    clipBehavior: Clip.antiAliasWithSaveLayer,
-    shadowColor: ColorsManager.blackColor,
-  ),
+      //card theme
+      cardTheme: CardTheme(
+        color: ColorsManager.whiteColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(SizeValues.s8)),
+        elevation: SizeValues.s4,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shadowColor: ColorsManager.blackColor,
+      ),
     );
