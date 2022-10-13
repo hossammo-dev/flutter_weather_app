@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../resources_paths.dart';
+import '../../../../../../resources_paths.dart';
+
 
 class WeatherView extends StatelessWidget {
   const WeatherView({Key? key}) : super(key: key);
@@ -107,7 +108,7 @@ class WeatherView extends StatelessWidget {
               ),
               const SizedBox(height: SizeValues.s20),
               const SizedBox(
-                height: 250,
+                height: 220,
                 width: double.infinity,
                 child: Card(),
               ),
