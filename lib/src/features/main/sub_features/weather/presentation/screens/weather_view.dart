@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../resources_paths.dart';
 
-class MainView extends StatelessWidget {
-  const MainView({Key? key}) : super(key: key);
+class WeatherView extends StatelessWidget {
+  const WeatherView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class MainView extends StatelessWidget {
           padding: const EdgeInsets.all(PaddingValues.p12),
           child: Column(
             children: [
-              _buildWeatherCard(context, bgImage),
+              Expanded(child: _buildWeatherCard(context, bgImage)),
               const SizedBox(height: SizeValues.s20),
               _buildForecast(context),
             ],
@@ -107,7 +107,7 @@ class MainView extends StatelessWidget {
               ),
               const SizedBox(height: SizeValues.s20),
               const SizedBox(
-                height: 200,
+                height: 250,
                 width: double.infinity,
                 child: Card(),
               ),

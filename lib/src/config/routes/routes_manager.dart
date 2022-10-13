@@ -7,7 +7,6 @@ class RoutesManager {
   static const String splashRoute = "/";
   static const String mainRoute = "/main";
   static const String forecastRoute = "/forecast";
-  static const String searchRoute = "/search";
 }
 
 class RoutesGenerator {
@@ -21,9 +20,6 @@ class RoutesGenerator {
 
       case RoutesManager.forecastRoute:
         return MaterialPageRoute(builder: (_) => const ForecastView());
-
-      case RoutesManager.searchRoute:
-        return MaterialPageRoute(builder: (_) => const SearchView());
 
       default:
         return _undefinedRoute();
