@@ -20,10 +20,45 @@ ThemeData get appTheme => ThemeData(
   //text theme
   textTheme: TextTheme(
     //TODO: make a style file and remove hard coded
+    //title
     titleMedium: TextStyle(
       color: ColorsManager.whiteColor,
       fontSize: 16,
       fontWeight: FontWeight.w700,
+    ),
+    titleSmall: TextStyle(
+      color: ColorsManager.greyColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    ),
+
+    //body
+    bodyLarge: TextStyle(
+      color: ColorsManager.whiteColor,
+      fontSize: 20,
+      fontWeight: FontWeight.w900,
+    ),
+    bodyMedium: TextStyle(
+      color: ColorsManager.whiteColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+    ),
+    bodySmall: TextStyle(
+      color: ColorsManager.whiteColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    ),
+
+    //label
+    labelMedium: TextStyle(
+      color: ColorsManager.blackColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+    ),
+    labelSmall: TextStyle(
+      color: ColorsManager.greyColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
     ),
   ),
     );
