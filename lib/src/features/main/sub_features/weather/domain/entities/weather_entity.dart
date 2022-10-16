@@ -5,7 +5,7 @@ class Weather extends Equatable {
   final int temp;
   final int humidity;
   final int pressure;
-  final int windSpeed;
+  final double windSpeed;
   final String condition;
   final String iconCode;
   final String countryCode;
