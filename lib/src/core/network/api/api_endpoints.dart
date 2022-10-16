@@ -16,6 +16,7 @@ class ApiHeaders{
 class ApiQueries{
   static const String lat = "lat";
   static const String lon = "lon";
+  static const String city = "q";
   static const String appId = "appid";
   static const String units = "units";
 
