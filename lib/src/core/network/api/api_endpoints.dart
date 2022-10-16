@@ -12,3 +12,17 @@ class ApiHeaders{
   static const String language = "language";
   static const String accept = "accept";
 }
+
+class ApiQueries{
+  static const String lat = "lat";
+  static const String lon = "lon";
+  static const String appId = "appid";
+  static const String units = "units";
+
+}
+
+class WeatherUnits {
+  static const String metric = "metric";
+  static const String imperial = "imperial";
+  static const String standard = "standard";
+}
