@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../base_injector.dart';
 import '../../../../../../resources_paths.dart';
+import '../../domain/entities/weather_entity.dart';
+import '../cubit/weather_cubit.dart';
+import '../cubit/weather_states.dart';
 
-
-class WeatherView extends StatelessWidget {
+class WeatherView extends StatefulWidget {
   const WeatherView({Key? key}) : super(key: key);
+
+  @override
+  State<WeatherView> createState() => _WeatherViewState();
+}
+
+class _WeatherViewState extends State<WeatherView> {
+  Future<void> _getWeatherByLocation() =>
+      BlocProvider.of<WeatherCubit>(context).getWeatherByCurrentLocation();
+
+  @override
+  void initState() {
+    super.initState();
+    _getWeatherByLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +32,26 @@ class WeatherView extends StatelessWidget {
           padding: const EdgeInsets.all(PaddingValues.p12),
           child: Column(
             children: [
-              Expanded(child: _buildWeatherCard(context, Constants.bgImage)),
+              BlocConsumer<WeatherCubit, WeatherStates>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is WeatherGetWeatherLoadingState) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is WeatherGetWeatherSuccessState) {
+                      return Expanded(
+                          child: _buildWeatherCard(
+                              context, state.weather, Constants.bgImage));
+                    } else {
+                      return Center(
+                        child: Text(
+                          "Error",
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
+                      );
+                    }
+                  }),
               const SizedBox(height: SizeValues.s20),
               _buildForecast(context),
             ],
@@ -24,7 +61,9 @@ class WeatherView extends StatelessWidget {
     );
   }
 
-  Widget _buildWeatherCard(BuildContext context, String bgImage) => Card(
+  Widget _buildWeatherCard(
+          BuildContext context, Weather weather, String bgImage) =>
+      Card(
         child: Container(
           padding: const EdgeInsets.all(PaddingValues.p16),
           decoration: BoxDecoration(
@@ -45,7 +84,7 @@ class WeatherView extends StatelessWidget {
                       Icon(Icons.location_on_outlined,
                           color: ColorsManager.whiteColor),
                       const SizedBox(width: SizeValues.s4),
-                      Text("New York",
+                      Text(weather.city,
                           style: Theme.of(context).textTheme.titleMedium),
                     ],
                   ),
@@ -64,9 +103,10 @@ class WeatherView extends StatelessWidget {
               const SizedBox(height: SizeValues.s40),
 
               //body
-              Text("22°", style: Theme.of(context).textTheme.bodyLarge),
+              Text("${weather.temp}°",
+                  style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: SizeValues.s20),
-              Text("Mostly Clear",
+              Text(weather.condition,
                   style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: SizeValues.s20),
               Row(
@@ -78,7 +118,7 @@ class WeatherView extends StatelessWidget {
                           color: ColorsManager.whiteColor,
                           size: SizeValues.s16),
                       const SizedBox(width: SizeValues.s4),
-                      Text("720hpa",
+                      Text("${weather.pressure}hpa",
                           style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),
@@ -88,7 +128,7 @@ class WeatherView extends StatelessWidget {
                           color: ColorsManager.whiteColor,
                           size: SizeValues.s16),
                       const SizedBox(width: SizeValues.s4),
-                      Text("32%",
+                      Text("${weather.humidity}%",
                           style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),
@@ -98,7 +138,7 @@ class WeatherView extends StatelessWidget {
                           color: ColorsManager.whiteColor,
                           size: SizeValues.s16),
                       const SizedBox(width: SizeValues.s4),
-                      Text("120km/h",
+                      Text("${weather.windSpeed}km/h",
                           style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),
@@ -108,7 +148,9 @@ class WeatherView extends StatelessWidget {
               const SizedBox(
                 height: 220,
                 width: double.infinity,
-                child: Card(),
+                child: Card(
+                  color: ColorsManager.transparent,
+                ),
               ),
             ],
           ),
@@ -116,39 +158,42 @@ class WeatherView extends StatelessWidget {
       );
 
   Widget _buildForecast(BuildContext context) => Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Today', style: Theme.of(context).textTheme.labelMedium),
-          Text('Next7Days', style: Theme.of(context).textTheme.labelMedium!.copyWith(
-            color: Colors.blue,
-            decoration: TextDecoration.underline,
-          )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Today', style: Theme.of(context).textTheme.labelMedium),
+              Text('Next7Days',
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      )),
+            ],
+          ),
+          const SizedBox(height: SizeValues.s20),
+          SizedBox(
+            height: 100,
+            child: ListView.builder(
+                itemCount: 13,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) =>
+                    _forecastItemsList(context, index)),
+          ),
         ],
-      ),
-      const SizedBox(height: SizeValues.s20),
-      SizedBox(
-        height: 100,
-        child: ListView.builder(
-            itemCount: 13,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => _forecastItemsList(context ,index)),
-      ),
-    ],
-  );
+      );
 
   Widget _forecastItemsList(BuildContext context, int index) => Padding(
-    padding: (index == 12) ? EdgeInsets.zero : const EdgeInsets.only(right: PaddingValues.p16),
-    child: Column(
-      children: [
-        Text('0${index}PM', style: Theme.of(context).textTheme.labelSmall),
-        const SizedBox(height: SizeValues.s8),
-        const Icon(Icons.sunny, color: Colors.amber, size: SizeValues.s32),
-        const SizedBox(height: SizeValues.s8),
-        Text('24°', style: Theme.of(context).textTheme.labelMedium),
-      ],
-    ),
-  );
-
+        padding: (index == 12)
+            ? EdgeInsets.zero
+            : const EdgeInsets.only(right: PaddingValues.p16),
+        child: Column(
+          children: [
+            Text('0${index}PM', style: Theme.of(context).textTheme.labelSmall),
+            const SizedBox(height: SizeValues.s8),
+            const Icon(Icons.sunny, color: Colors.amber, size: SizeValues.s32),
+            const SizedBox(height: SizeValues.s8),
+            Text('24°', style: Theme.of(context).textTheme.labelMedium),
+          ],
+        ),
+      );
 }
