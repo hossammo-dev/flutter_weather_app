@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/src/base_injector.dart';
 
 import '../../../../core/utils/color/colors_manager.dart';
 import '../../routes_paths.dart';
+import '../../sub_features/weather/presentation/cubit/weather_cubit.dart';
 import '../cubit/main_cubit.dart';
 import '../cubit/main_states.dart';
 
 class MainView extends StatelessWidget {
-  const MainView({Key? key}) : super(key: key);
+  MainView({Key? key}) : super(key: key);
 
-  final List<Widget> _pages = const [
-    WeatherView(),
-    ChatView(),
-    SearchView(),
-    FavoriteView(),
-    ProfileView(),
+  final List<dynamic> _pages =  [
+    BlocProvider<WeatherCubit>(
+      create: (context) => instance<WeatherCubit>(),
+      child: const WeatherView(),
+    ),
+    const ChatView(),
+    const SearchView(),
+    const FavoriteView(),
+    const ProfileView(),
   ];
 
   @override
@@ -29,7 +34,7 @@ class MainView extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.currentIndex,
               onTap: (index) => cubit.changeCurrentIndex(index),
-              items:  [
+              items: [
                 const BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined), label: "Home"),
                 const BottomNavigationBarItem(
@@ -45,7 +50,8 @@ class MainView extends StatelessWidget {
                     ),
                     label: "Search"),
                 const BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite_border_outlined), label: "Favorite"),
+                    icon: Icon(Icons.favorite_border_outlined),
+                    label: "Favorite"),
                 const BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline_outlined),
                     label: "Profile"),
