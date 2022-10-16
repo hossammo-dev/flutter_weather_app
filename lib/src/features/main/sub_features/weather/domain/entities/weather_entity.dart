@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Weather extends Equatable {
-  final String? city;
+  final String city;
   final int temp;
   final int humidity;
   final int pressure;
