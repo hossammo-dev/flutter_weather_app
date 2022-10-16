@@ -8,10 +8,10 @@ import '../../domain/entities/weather_entity.dart';
 import '../../domain/repository/repository.dart';
 import '../data_sources/remote_data_source/remote_data_source.dart';
 
-class RepositoryImpl implements Repository{
+class WeatherRepositoryImpl implements WeatherRepository{
   final NetworkInfo _networkInfo;
-  final RemoteDataSource _remoteDataSource;
-  RepositoryImpl(this._networkInfo, this._remoteDataSource);
+  final WeatherRemoteDataSource _remoteDataSource;
+  WeatherRepositoryImpl(this._networkInfo, this._remoteDataSource);
 
   @override
   Future<Either<Failure, Weather>> getWeatherByCurrentLocation(CoordObject coordObject) async {

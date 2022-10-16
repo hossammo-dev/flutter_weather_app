@@ -18,13 +18,13 @@ Future<void> initAppModule() async {
   instance.registerFactory<WeatherCubit>(() => WeatherCubit(instance<WeatherByLocationUseCase>()));
 
   // use cases
-  instance.registerLazySingleton<WeatherByLocationUseCase>(() => WeatherByLocationUseCase(instance<Repository>()));
+  instance.registerLazySingleton<WeatherByLocationUseCase>(() => WeatherByLocationUseCase(instance<WeatherRepository>()));
 
   // repositories
-  instance.registerLazySingleton<Repository>(() => RepositoryImpl(instance<NetworkInfo>(), instance<RemoteDataSource>()));
+  instance.registerLazySingleton<WeatherRepository>(() => WeatherRepositoryImpl(instance<NetworkInfo>(), instance<WeatherRemoteDataSource>()));
 
   //data sources
-  instance.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(instance<ApiServicesClient>()));
+  instance.registerLazySingleton<WeatherRemoteDataSource>(() => WeatherRemoteDataSourceImpl(instance<ApiServicesClient>()));
 
   /// core
   instance.registerLazySingleton<ApiServicesClient>(() => ApiServicesClient());

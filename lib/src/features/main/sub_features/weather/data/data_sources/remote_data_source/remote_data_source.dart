@@ -4,14 +4,14 @@ import '../../../../../../../core/network/api/api_services_client.dart';
 import '../../../../../../../core/usecase/usecase_params_types.dart';
 import '../../models/weather_model.dart';
 
-abstract class RemoteDataSource {
+abstract class WeatherRemoteDataSource {
   Future<WeatherModel> getWeatherByCurrentLocation(CoordObject coordObject);
 }
 
-class RemoteDataSourceImpl implements RemoteDataSource {
+class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
   final ApiServicesClient _apiClient;
 
-  RemoteDataSourceImpl(this._apiClient);
+  WeatherRemoteDataSourceImpl(this._apiClient);
 
   @override
   Future<WeatherModel> getWeatherByCurrentLocation(CoordObject coordObject) async {

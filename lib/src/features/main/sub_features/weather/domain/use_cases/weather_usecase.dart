@@ -8,7 +8,7 @@ import '../entities/weather_entity.dart';
 import '../repository/repository.dart';
 
 class WeatherByLocationUseCase implements BaseUseCase<Weather, CoordObject> {
-  final Repository _repository;
+  final WeatherRepository _repository;
 
   WeatherByLocationUseCase(this._repository);
 
