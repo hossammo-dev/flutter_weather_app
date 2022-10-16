@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/src/core/usecase/usecase_params_types.dart';
@@ -13,6 +14,7 @@ class WeatherCubit extends Cubit<WeatherStates> {
   Future<CoordObject> _getCurrentLocation() async {
     emit(WeatherGetCurrentLocationLoadingState());
     try {
+      await Geolocator.requestPermission();
       final location = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
       emit(WeatherGetCurrentLocationSuccessState());
