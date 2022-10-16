@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../resources_paths.dart';
 import '../../domain/entities/weather_entity.dart';
@@ -35,18 +36,26 @@ class _WeatherViewState extends State<WeatherView> {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state is WeatherGetWeatherLoadingState) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
                     } else if (state is WeatherGetWeatherSuccessState) {
                       return Expanded(
                           child: _buildWeatherCard(
                               context, state.weather, Constants.bgImage));
-                    } else {
+                    } else if (state is WeatherGetWeatherErrorState) {
                       return Center(
                         child: Text(
                           "Error",
                           style: Theme.of(context).textTheme.displayLarge,
+                        ),
+                      );
+                    } else {
+                      return const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
                         ),
                       );
                     }
@@ -88,15 +97,8 @@ class _WeatherViewState extends State<WeatherView> {
                     ],
                   ),
                   //time
-                  Row(
-                    children: [
-                      Text("Today",
-                          style: Theme.of(context).textTheme.titleSmall),
-                      const SizedBox(width: SizeValues.s1),
-                      Text("12:48 PM",
-                          style: Theme.of(context).textTheme.titleSmall),
-                    ],
-                  ),
+                  Text('Today ${DateFormat("h:mm a").format(weather.time)}',
+                      style: Theme.of(context).textTheme.titleSmall),
                 ],
               ),
               const SizedBox(height: SizeValues.s40),
