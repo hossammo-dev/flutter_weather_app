@@ -11,7 +11,7 @@ import 'features/main/sub_features/weather/presentation/cubit/weather_cubit.dart
 
 final instance = GetIt.instance;
 
-Future<void> intiAppModule() async {
+Future<void> initAppModule() async {
   /// features
 
   //blocs
