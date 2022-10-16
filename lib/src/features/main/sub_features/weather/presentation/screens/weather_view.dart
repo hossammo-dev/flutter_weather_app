@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../base_injector.dart';
 import '../../../../../../resources_paths.dart';
 import '../../domain/entities/weather_entity.dart';
 import '../cubit/weather_cubit.dart';
