@@ -1,4 +1,6 @@
 
+import 'package:weather/src/core/functions/functions.dart';
+
 import '../../../../../../../core/network/api/api_endpoints.dart';
 import '../../../../../../../core/network/api/api_services_client.dart';
 import '../../../../../../../core/usecase/usecase_params_types.dart';
@@ -15,12 +17,7 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
 
   @override
   Future<WeatherModel> getWeatherByCurrentLocation(CoordObject coordObject) async {
-    final params = {
-      ApiQueries.lat : coordObject.lat,
-      ApiQueries.lon : coordObject.long,
-      ApiQueries.units : WeatherUnits.metric,
-      ApiQueries.appId : ApiEndPoints.apiKey
-    };
+    final params = getParams(lat: coordObject.lat, lon: coordObject.long);
 
     final response =
         await _apiClient.get(ApiEndPoints.weather, params: params);
