@@ -16,9 +16,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<WeatherModel> getWeatherByCurrentLocation(CoordObject coordObject) async {
     final params = {
-      'lat': coordObject.lat,
-      'long': coordObject.long,
-      'appid': ApiEndPoints.apiKey
+      ApiQueries.lat : coordObject.lat,
+      ApiQueries.lon : coordObject.long,
+      ApiQueries.units : WeatherUnits.metric,
+      ApiQueries.appId : ApiEndPoints.apiKey
     };
 
     final response =
