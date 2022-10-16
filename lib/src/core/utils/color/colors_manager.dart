@@ -10,4 +10,6 @@ class ColorsManager {
   static Color lightGreyColor = HexColor("#9AA5B3");
   static Color lightBlueColor = HexColor("#CAE3FF");
   static Color lightWhiteColor = HexColor("#DCE0E4");
+
+  static const Color transparent = Color(0x00000000);
 }
