@@ -7,5 +7,5 @@ import 'app.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-  runApp(WeatherApp());
+  runApp(const WeatherApp());
 }
