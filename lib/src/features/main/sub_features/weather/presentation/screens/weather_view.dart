@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../resources_paths.dart';
+import '../../../../../forecast/domain/entities/forecast_entity.dart';
+import '../../../../../forecast/presentation/cubit/forecast_cubit.dart';
+import '../../../../../forecast/presentation/cubit/forecast_states.dart';
 import '../../domain/entities/weather_entity.dart';
 import '../cubit/weather_cubit.dart';
 import '../cubit/weather_states.dart';
@@ -15,8 +18,11 @@ class WeatherView extends StatefulWidget {
 }
 
 class _WeatherViewState extends State<WeatherView> {
-  Future<void> _getWeatherByLocation() =>
-      BlocProvider.of<WeatherCubit>(context).getWeatherByCurrentLocation();
+  Future<void> _getWeatherByLocation() async {
+    await BlocProvider.of<WeatherCubit>(context).getWeatherByCurrentLocation();
+    // ignore: use_build_context_synchronously
+    BlocProvider.of<ForecastCubit>(context).getForecastByCurrentLocation();
+  }
 
   @override
   void initState() {
@@ -32,36 +38,62 @@ class _WeatherViewState extends State<WeatherView> {
           padding: const EdgeInsets.all(PaddingValues.p12),
           child: Column(
             children: [
-              BlocConsumer<WeatherCubit, WeatherStates>(
-                  listener: (context, state) {},
+              BlocBuilder<WeatherCubit, WeatherStates>(
                   builder: (context, state) {
-                    if (state is WeatherGetWeatherLoadingState) {
-                      return const Expanded(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    } else if (state is WeatherGetWeatherSuccessState) {
-                      return Expanded(
-                          child: _buildWeatherCard(
-                              context, state.weather, Constants.bgImage));
-                    } else if (state is WeatherGetWeatherErrorState) {
-                      return Center(
-                        child: Text(
-                          "Error",
-                          style: Theme.of(context).textTheme.displayLarge,
-                        ),
-                      );
-                    } else {
-                      return const Expanded(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                  }),
+                if (state is WeatherGetWeatherLoadingState) {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (state is WeatherGetWeatherSuccessState) {
+                  return Expanded(
+                      child: _buildWeatherCard(
+                          context, state.weather, Constants.bgImage));
+                } else if (state is WeatherGetWeatherErrorState) {
+                  return Center(
+                    child: Text(
+                      "Error",
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                  );
+                } else {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              }),
               const SizedBox(height: SizeValues.s20),
-              _buildForecast(context),
+              BlocBuilder<ForecastCubit, ForecastStates>(
+                builder: (context, state) {
+                  if (state is ForecastGetForecastLoadingState) {
+                    return const SizedBox(
+                      height: 100,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  } else if (state is ForecastGetForecastSuccessState) {
+                    return _buildForecast(context, state.forecast);
+                  } else if (state is ForecastGetForecastErrorState) {
+                    return Center(
+                      child: Text(
+                        "Error",
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    );
+                  } else {
+                    return const SizedBox(
+                      height: 100,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -158,7 +190,8 @@ class _WeatherViewState extends State<WeatherView> {
         ),
       );
 
-  Widget _buildForecast(BuildContext context) => Column(
+  Widget _buildForecast(BuildContext context, List<Forecast> forecast) =>
+      Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -175,25 +208,31 @@ class _WeatherViewState extends State<WeatherView> {
           SizedBox(
             height: 100,
             child: ListView.builder(
-                itemCount: 13,
+                itemCount: forecast.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) =>
-                    _forecastItemsList(context, index)),
+                    _forecastItemsList(context, index, forecast[index], forecast.length)),
           ),
         ],
       );
 
-  Widget _forecastItemsList(BuildContext context, int index) => Padding(
-        padding: (index == 12)
+  Widget _forecastItemsList(
+          BuildContext context, int index, Forecast forecast, int length) =>
+      Padding(
+        padding: (index == length)
             ? EdgeInsets.zero
             : const EdgeInsets.only(right: PaddingValues.p16),
         child: Column(
           children: [
-            Text('0${index}PM', style: Theme.of(context).textTheme.labelSmall),
+            Text(
+                DateFormat("ha").format(
+                    DateTime.fromMillisecondsSinceEpoch(forecast.time * 1000)),
+                style: Theme.of(context).textTheme.labelSmall),
             const SizedBox(height: SizeValues.s8),
             const Icon(Icons.sunny, color: Colors.amber, size: SizeValues.s32),
             const SizedBox(height: SizeValues.s8),
-            Text('24°', style: Theme.of(context).textTheme.labelMedium),
+            Text('${forecast.temp}°',
+                style: Theme.of(context).textTheme.labelMedium),
           ],
         ),
       );

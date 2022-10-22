@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/src/base_injector.dart';
 
 import '../../../../core/utils/color/colors_manager.dart';
+import '../../../forecast/presentation/cubit/forecast_cubit.dart';
 import '../../routes_paths.dart';
 import '../../sub_features/weather/presentation/cubit/weather_cubit.dart';
 import '../cubit/main_cubit.dart';
@@ -11,9 +12,17 @@ import '../cubit/main_states.dart';
 class MainView extends StatelessWidget {
   MainView({Key? key}) : super(key: key);
 
-  final List<dynamic> _pages =  [
-    BlocProvider<WeatherCubit>(
-      create: (context) => instance<WeatherCubit>(),
+  final List<dynamic> _pages = [
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<WeatherCubit>(
+          create: (_) =>
+              instance<WeatherCubit>(),
+        ),
+        BlocProvider<ForecastCubit>(
+          create: (_) => instance<ForecastCubit>(),
+        ),
+      ],
       child: const WeatherView(),
     ),
     const ChatView(),

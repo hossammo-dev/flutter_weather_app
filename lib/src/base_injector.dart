@@ -3,29 +3,10 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'core/network/api/api_services_client.dart';
 import 'core/network/network_info.dart';
-import 'features/main/sub_features/weather/data/data_sources/remote_data_source/remote_data_source.dart';
-import 'features/main/sub_features/weather/data/repository/repository_impl.dart';
-import 'features/main/sub_features/weather/domain/repository/repository.dart';
-import 'features/main/sub_features/weather/domain/use_cases/weather_usecase.dart';
-import 'features/main/sub_features/weather/presentation/cubit/weather_cubit.dart';
 
 final instance = GetIt.instance;
 
 Future<void> initAppModule() async {
-  /// features
-
-  //blocs
-  instance.registerFactory<WeatherCubit>(() => WeatherCubit(instance<WeatherByLocationUseCase>()));
-
-  // use cases
-  instance.registerLazySingleton<WeatherByLocationUseCase>(() => WeatherByLocationUseCase(instance<WeatherRepository>()));
-
-  // repositories
-  instance.registerLazySingleton<WeatherRepository>(() => WeatherRepositoryImpl(instance<NetworkInfo>(), instance<WeatherRemoteDataSource>()));
-
-  //data sources
-  instance.registerLazySingleton<WeatherRemoteDataSource>(() => WeatherRemoteDataSourceImpl(instance<ApiServicesClient>()));
-
   /// core
   instance.registerLazySingleton<ApiServicesClient>(() => ApiServicesClient());
   instance.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(instance<InternetConnectionChecker>()));

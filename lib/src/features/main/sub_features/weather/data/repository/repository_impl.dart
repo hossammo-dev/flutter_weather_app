@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 
+import '../../../../../../core/network/error/exception.dart';
 import '../../../../../../core/network/error/failure.dart';
 import '../../../../../../core/network/network_info.dart';
 import '../../../../../../core/usecase/usecase_params_types.dart';
@@ -25,8 +26,8 @@ class WeatherRepositoryImpl implements WeatherRepository{
       }
     }else{
       //get data from local
+    throw const NoInternetConnectionException();
     }
-    throw UnimplementedError();
   }
 
 }
