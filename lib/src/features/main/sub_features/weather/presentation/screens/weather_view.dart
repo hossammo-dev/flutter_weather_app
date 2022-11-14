@@ -178,11 +178,17 @@ class _WeatherViewState extends State<WeatherView> {
                 ],
               ),
               const SizedBox(height: SizeValues.s20),
-              const SizedBox(
-                height: 220,
+              SizedBox(
+                // height: 220,
+                height: context.height * 0.22,
                 width: double.infinity,
                 child: Card(
-                  color: ColorsManager.transparent,
+                  color: ColorsManager.lightBlueGreyColor.withOpacity(0.5),
+                  child: Padding(
+                    padding: const EdgeInsets.all(PaddingValues.p16),
+                    child: Text("Temperature",
+                        style: Theme.of(context).textTheme.bodyMedium),
+                  ),
                 ),
               ),
             ],
@@ -197,7 +203,7 @@ class _WeatherViewState extends State<WeatherView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Today', style: Theme.of(context).textTheme.labelMedium),
-              Text('Next7Days',
+              Text('Next 7 Days',
                   style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
@@ -210,8 +216,8 @@ class _WeatherViewState extends State<WeatherView> {
             child: ListView.builder(
                 itemCount: forecast.length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    _forecastItemsList(context, index, forecast[index], forecast.length)),
+                itemBuilder: (context, index) => _forecastItemsList(
+                    context, index, forecast[index], forecast.length)),
           ),
         ],
       );
