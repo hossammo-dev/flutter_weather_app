@@ -6,8 +6,9 @@ import '../../../../core/usecase/usecase_params_types.dart';
 import '../../domain/use_cases/forecast_usecase.dart';
 import 'forecast_states.dart';
 
-class ForecastCubit extends Cubit<ForecastStates>{
-  ForecastCubit(this._forecastByLocationUseCase) : super(ForecastInitialState());
+class ForecastCubit extends Cubit<ForecastStates> {
+  ForecastCubit(this._forecastByLocationUseCase)
+      : super(ForecastInitialState());
   final ForecastByLocationUseCase _forecastByLocationUseCase;
 
   //get current location
@@ -30,11 +31,10 @@ class ForecastCubit extends Cubit<ForecastStates>{
     emit(ForecastGetForecastLoadingState());
     final coords = await _getCurrentLocation();
     final response = await _forecastByLocationUseCase(coords);
-    emit(response.fold((failure) => ForecastGetForecastErrorState(),
-            (forecast) {
-      // debugPrint("--forecast: $forecast");
-              return ForecastGetForecastSuccessState(forecast);
-            }));
+    emit(
+        response.fold((failure) => ForecastGetForecastErrorState(), (forecast) {
+      return ForecastGetForecastSuccessState(forecast);
+    }));
   }
 
 //get forecast by city name
